@@ -1,18 +1,39 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
+import thunk from 'redux-thunk'
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <div className="hero is-primary">
-          <div className="hero-body">
-            <div className="title">Cake App</div>
-            <div className="subtitle">Waracle Challenge</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
+import reducers from './redux/reducers'
+import HomePage from './components/HomePage'
+import CakeCreatePage from './components/CakeCreatePage'
+import CakePage from './components/CakePage'
 
-export default App;
+const history = createHistory()
+
+const store = createStore(
+  combineReducers({
+    ...reducers,
+    routing: routerReducer
+  }),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(thunk, routerMiddleware(history))
+)
+
+let App = () => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Fragment>
+        <Route exact path="/" component={HomePage} />
+        <Switch>
+          <Route exact path="/cake/create" component={CakeCreatePage} />
+          <Route exact path="/cake/:id" component={CakePage} />
+        </Switch>
+      </Fragment>
+    </ConnectedRouter>
+  </Provider>
+)
+
+export default App
