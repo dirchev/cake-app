@@ -23,7 +23,7 @@ git clone https://github.com/dirchev/cake-app
 On Linux
 
 ```bash
-cd aileron airways-app
+cd aileron cake-app
 ```
 
 3. Install dependencies
