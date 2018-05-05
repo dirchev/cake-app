@@ -9,6 +9,7 @@ import thunk from 'redux-thunk'
 import reducers from './redux/reducers'
 import HomePage from './components/HomePage'
 import CakeCreatePage from './components/CakeCreatePage'
+import CakeEditPage from './components/CakeEditPage'
 import CakePage from './components/CakePage'
 import dataLoader from './utils/data-loader'
 
@@ -34,6 +35,7 @@ let App = () => (
           <Switch>
             <Route exact path="/cake/create" component={CakeCreatePage} />
             <Route exact path="/cake/:id" component={CakePage} />
+            <Route exact path="/cake/:id/edit" component={CakeEditPage} />
           </Switch>
         </Fragment>
       </div>

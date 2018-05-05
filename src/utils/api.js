@@ -26,7 +26,7 @@ class CakeAPI {
   }
 
   edit (data) {
-    return this.axios.put(`/cakes/${data.id}`, {data})
+    return this.axios.put(`/cakes/${data.id}`, data)
   }
 
   delete (id) {

@@ -6,30 +6,55 @@ export default function cakesReducer (state = defaultState, action) {
     case 'START_CREATE_CAKE':
       return {
         ...state,
-        [action.payload.id]: { // use creation ID bc no API id assigned
-          ...action.payload,
-          loading: true,
-          synced: false
-        }
-      }
-    case 'SUCCESS_CREATE_CAKE':
-      // deprecate creation ID and use the API id
-      return {
-        ..._.omit(state, action.payload.creationId),
         [action.payload.id]: {
           ..._.omit(action.payload, 'creationId'),
-          loading: false,
-          synced: true
+          loading: true,
+          synced: false,
+          action: 'create'
         }
       }
-    case 'ERROR_CREATE_CAKE':
+    case 'START_EDIT_CAKE':
       return {
         ...state,
         [action.payload.id]: {
           ...action.payload,
+          loading: true,
+          synced: false,
+          action: 'edit'
+        }
+      }
+    case 'SUCCESS_EDIT_CAKE':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...action.payload,
+          loading: false,
+          synced: true,
+          action: null,
+          error: null
+        }
+      }
+    case 'SUCCESS_CREATE_CAKE':
+      return {
+        ..._.omit(state, action.payload.creationId),
+        [action.payload.id]: {
+          ...action.payload,
+          loading: false,
+          synced: true,
+          action: null,
+          error: null
+        }
+      }
+    case 'ERROR_EDIT_CAKE':
+    case 'ERROR_CREATE_CAKE':
+    case 'ERROR_DELETE_CAKE':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...state[action.payload.id],
           synced: false,
           loading: false,
-          errors: action.error
+          error: action.error
         }
       }
     case 'START_DELETE_CAKE':
@@ -37,24 +62,29 @@ export default function cakesReducer (state = defaultState, action) {
         ...state,
         [action.payload.id]: {
           ...state[action.payload.id],
-          loading: true
+          loading: true,
+          synced: false,
+          action: 'delete'
         }
       }
     case 'SUCCESS_DELETE_CAKE':
       return {
         ..._.omit(state, action.payload.id)
       }
-    case 'ERROR_DELETE_CAKE':
-      return {
-        ...state,
-        [action.payload.id]: {
-          ...state[action.payload.id],
-          deleteError: action.error
-        }
-      }
     case 'DISCARD_CAKE_CREATION':
       return {
         ..._.omit(state, action.payload.id)
+      }
+    case 'DISCARD_CAKE_EDIT':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...action.payload,
+          loading: false,
+          synced: true,
+          action: null,
+          error: null
+        }
       }
     case 'SYNC_CAKES':
       let newState = {...state}

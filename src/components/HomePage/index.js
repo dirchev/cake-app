@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import CakePreview from './CakePreview'
 import Navigation from './Navigation'
 import PropTypes from 'prop-types'
-import actions from '../redux/action-creators'
+import actions from '../../redux/action-creators'
 import FA from '@fortawesome/react-fontawesome'
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
 
@@ -17,14 +17,21 @@ class HomePage extends Component {
           <div>
             {
               this.props.unsyncedCakes.map((cake) => {
-                if (cake.errors) {
+                if (cake.error) {
                   return (
-                    <div key={cake.id} to={`/cake/${cake.id}/edit`} className="notification is-danger">
-                      <button className="delete" onClick={this.props.discardCakeCreation(cake.id)}></button>
+                    <div key={cake.id} className="notification is-danger">
+                      <button
+                        className="delete"
+                        onClick={
+                          cake.action === 'create'
+                          ? this.props.discardCreation(cake.id)
+                          : this.props.discardEdit(cake.id)
+                        }
+                      ></button>
                       <span><strong>{cake.name}</strong> had some problems syncing. Fix it <Link to={`/cake/${cake.id}/edit`}>here</Link>.</span>
                     </div>
                   )
-                } else {
+                } else  {
                   return (
                     <div key={cake.id} className="notification">
                       <span className="icon"><FA icon={faSpinner} spin /></span>
@@ -75,10 +82,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    discardCakeCreation: (cakeId) => (e) => {
+    discardCreation: (cakeId) => (e) => {
       e.preventDefault()
-      dispatch(actions.discardCakeCreation(cakeId))
-    }
+      dispatch(actions.discardCreation(cakeId))
+    },
+    discardEdit: (cakeId) => (e) => {
+      e.preventDefault()
+      dispatch(actions.discardEdit(cakeId))
+    },
   }
 }
 

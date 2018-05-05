@@ -4,18 +4,44 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import actions from '../redux/action-creators'
+import actions from '../../redux/action-creators'
 
 import FA from '@fortawesome/react-fontawesome'
 import faUndo from '@fortawesome/fontawesome-free-solid/faUndoAlt'
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
+import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
 
 class CakePage extends Component {
   render() {
     if (!this.props.cake) return (
       <Redirect to='/' />
     )
+    let infoBox = null
+    if (this.props.cake.error) {
+      infoBox = (
+        <div className="card-content">
+          <div className="notification is-danger">
+            <button
+              className="delete"
+              onClick={
+                this.props.cake.action === 'create'
+                ? this.props.discardCreation
+                : this.props.discardEdit
+              }
+              ></button>
+            <span><strong>{this.props.cake.name}</strong> had some problems syncing. Fix it <Link to={`/cake/${this.props.cake.id}/edit`}>here</Link>.</span>
+          </div>
+        </div>
+      )
+    } else if (this.props.cake.loading) {
+      infoBox = (
+        <div className="notification">
+          <span className="icon"><FA icon={faSpinner} spin /></span>
+          <span>Getting <strong>{this.props.cake.name}</strong> baked!</span>
+        </div>
+      )
+    }
     return (
       <div className="card">
         <div className="card-header">
@@ -41,6 +67,7 @@ class CakePage extends Component {
               </span>
             </Link>
         </div>
+        {infoBox}
         {
           this.props.cake.imageUrl
           ? (
@@ -89,6 +116,14 @@ const mapStateToProps = function (state, prevProps) {
 const mapDispatchToProps = function (dispatch, prevProps) {
   let cakeId = prevProps.match.params.id
   return {
+    discardCreation: (e) => {
+      e.preventDefault()
+      dispatch(actions.discardCreation(cakeId))
+    },
+    discardEdit: (e) => {
+      e.preventDefault()
+      dispatch(actions.discardEdit(cakeId))
+    },
     deleteCake: (e) => {
       e.preventDefault()
       dispatch(actions.deleteCake(cakeId))
