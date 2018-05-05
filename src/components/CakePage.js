@@ -29,8 +29,8 @@ class CakePage extends Component {
           }
 
           <div className="content">
-           { this.props.comment ? (<p>{this.props.cake.comment}</p>) : null }
-           { this.props.yumFactor ? (<YumFactorPreview value={this.props.cake.yumFactor} />) : null}
+           { this.props.cake.comment ? (<p>{this.props.cake.comment}</p>) : null }
+           { this.props.cake.yumFactor ? (<YumFactorPreview value={this.props.cake.yumFactor} />) : null}
           </div>
         </div>
       </div>

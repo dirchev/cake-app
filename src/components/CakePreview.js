@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import YumFactorPreview from './YumFactorPreview'
 import PropTypes from 'prop-types'
 
 class CakePreview extends Component {
@@ -24,11 +23,6 @@ class CakePreview extends Component {
               ? (<p className="title is-5">{this.props.name}</p>)
               : null
             }
-
-            <div className="content">
-              { this.props.comment ? (<p>{this.props.comment}</p>) : null }
-              { this.props.yumFactor ? (<YumFactorPreview value={this.props.yumFactor} />) : null}
-            </div>
           </div>
         </div>
       </Link>
