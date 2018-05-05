@@ -51,7 +51,7 @@ export default function cakesReducer (state = defaultState, action) {
       return {
         ...state,
         [action.payload.id]: {
-          ...action.payload,
+          ...state[action.payload.id],
           synced: false,
           loading: false,
           error: action.error
@@ -74,6 +74,17 @@ export default function cakesReducer (state = defaultState, action) {
     case 'DISCARD_CAKE_CREATION':
       return {
         ..._.omit(state, action.payload.id)
+      }
+    case 'DISCARD_CAKE_EDIT':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...action.payload,
+          loading: false,
+          synced: true,
+          action: null,
+          error: null
+        }
       }
     case 'SYNC_CAKES':
       let newState = {...state}

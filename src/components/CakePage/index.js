@@ -22,7 +22,14 @@ class CakePage extends Component {
       infoBox = (
         <div className="card-content">
           <div className="notification is-danger">
-            <button className="delete" onClick={this.props.discardCake}></button>
+            <button
+              className="delete"
+              onClick={
+                this.props.cake.action === 'create'
+                ? this.props.discardCreation
+                : this.props.discardEdit
+              }
+              ></button>
             <span><strong>{this.props.cake.name}</strong> had some problems syncing. Fix it <Link to={`/cake/${this.props.cake.id}/edit`}>here</Link>.</span>
           </div>
         </div>
@@ -109,9 +116,13 @@ const mapStateToProps = function (state, prevProps) {
 const mapDispatchToProps = function (dispatch, prevProps) {
   let cakeId = prevProps.match.params.id
   return {
-    discardCake: (e) => {
+    discardCreation: (e) => {
       e.preventDefault()
-      dispatch(actions.discardCake(cakeId))
+      dispatch(actions.discardCreation(cakeId))
+    },
+    discardEdit: (e) => {
+      e.preventDefault()
+      dispatch(actions.discardEdit(cakeId))
     },
     deleteCake: (e) => {
       e.preventDefault()

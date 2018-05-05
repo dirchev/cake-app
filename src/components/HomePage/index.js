@@ -20,7 +20,14 @@ class HomePage extends Component {
                 if (cake.error) {
                   return (
                     <div key={cake.id} className="notification is-danger">
-                      <button className="delete" onClick={this.props.discardCake(cake.id)}></button>
+                      <button
+                        className="delete"
+                        onClick={
+                          cake.action === 'create'
+                          ? this.props.discardCreation(cake.id)
+                          : this.props.discardEdit(cake.id)
+                        }
+                      ></button>
                       <span><strong>{cake.name}</strong> had some problems syncing. Fix it <Link to={`/cake/${cake.id}/edit`}>here</Link>.</span>
                     </div>
                   )
@@ -75,10 +82,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    discardCake: (cakeId) => (e) => {
+    discardCreation: (cakeId) => (e) => {
       e.preventDefault()
-      dispatch(actions.discardCake(cakeId))
-    }
+      dispatch(actions.discardCreation(cakeId))
+    },
+    discardEdit: (cakeId) => (e) => {
+      e.preventDefault()
+      dispatch(actions.discardEdit(cakeId))
+    },
   }
 }
 

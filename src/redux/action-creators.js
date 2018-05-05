@@ -54,7 +54,6 @@ export default {
       })
   },
   deleteCake: (cakeId) => (dispatch) => {
-
     dispatch({
       type: 'START_DELETE_CAKE',
       payload: {id: cakeId}
@@ -77,10 +76,18 @@ export default {
         })
       })
   },
-  discardCake: (cakeId) => (dispatch) => {
+  discardCreation: (cakeId) => (dispatch) => {
     dispatch({
       type: 'DISCARD_CAKE_CREATION',
       payload: {id: cakeId}
+    })
+  },
+  discardEdit: (cakeId) => (dispatch) => {
+    api.getOne(cakeId).then(({data}) => {
+      dispatch({
+        type: 'DISCARD_CAKE_EDIT',
+        payload: data
+      })
     })
   },
   loadAllCakes: () => (dispatch) => {
@@ -93,7 +100,7 @@ export default {
       .then(({data}) => {
         dispatch({
           type: 'TOGGLE_GLOBAL_LOADING',
-          payload: {loading: false}
+          payload: {loading: true}
         })
         dispatch({
           type: 'SYNC_CAKES',
