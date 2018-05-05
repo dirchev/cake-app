@@ -65,7 +65,7 @@ class CakeForm extends Component {
         />
 
         <div className="buttons">
-          <button className="button is-small is-primary" type="submit">Create</button>
+          <button className="button is-small is-primary" type="submit">Submit</button>
           <button onClick={this.handleCancel} type="button" className="button is-text is-small">Cancel</button>
         </div>
       </form>
