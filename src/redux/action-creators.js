@@ -31,6 +31,30 @@ export default {
         })
       })
   },
+  deleteCake: (cakeId) => (dispatch) => {
+
+    dispatch({
+      type: 'START_DELETE_CAKE',
+      payload: {id: cakeId}
+    })
+
+    api.delete(cakeId)
+      .then(({data}) => {
+        dispatch({
+          type: 'SUCCESS_DELETE_CAKE',
+          payload: {id: cakeId}
+        })
+        dispatch(push('/'))
+      })
+      .catch(({response}) => {
+        let err = response.data
+        dispatch({
+          type: 'ERROR_DELETE_CAKE',
+          payload: {id: cakeId},
+          error: err
+        })
+      })
+  },
   discardCakeCreation: (cakeId) => (dispatch) => {
     dispatch({
       type: 'DISCARD_CAKE_CREATION',
