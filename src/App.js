@@ -25,13 +25,15 @@ const store = createStore(
 let App = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Fragment>
-        <Route exact path="/" component={HomePage} />
-        <Switch>
-          <Route exact path="/cake/create" component={CakeCreatePage} />
-          <Route exact path="/cake/:id" component={CakePage} />
-        </Switch>
-      </Fragment>
+      <div className="container">
+        <Fragment>
+          <Route exact path="/" component={HomePage} />
+          <Switch>
+            <Route exact path="/cake/create" component={CakeCreatePage} />
+            <Route exact path="/cake/:id" component={CakePage} />
+          </Switch>
+        </Fragment>
+      </div>
     </ConnectedRouter>
   </Provider>
 )
