@@ -7,7 +7,7 @@ const api = new CakeApi()
 export default {
   createCake: (data) => (dispatch) => {
     // used to keep track of the cake until it receives an ID from the API
-    var creationId = uuid.v4()
+    var creationId = data.id || uuid.v4()
 
     dispatch({
       type: 'START_CREATE_CAKE',
@@ -19,7 +19,7 @@ export default {
       .then(({data}) => {
         dispatch({
           type: 'SUCCESS_CREATE_CAKE',
-          payload: {...data, creationId}
+          payload: {...data, creationId: creationId}
         })
       })
       .catch(({response}) => {
@@ -27,6 +27,28 @@ export default {
         dispatch({
           type: 'ERROR_CREATE_CAKE',
           payload: {...data, id: creationId},
+          error: err
+        })
+      })
+  },
+  editCake: (data) => (dispatch) => {
+    dispatch({
+      type: 'START_EDIT_CAKE',
+      payload: data
+    })
+    dispatch(push(`/cake/${data.id}`))
+    api.edit(data)
+      .then(({data}) => {
+        dispatch({
+          type: 'SUCCESS_EDIT_CAKE',
+          payload: data
+        })
+      })
+      .catch(({response}) => {
+        let err = response.data
+        dispatch({
+          type: 'ERROR_EDIT_CAKE',
+          payload: data,
           error: err
         })
       })
@@ -55,7 +77,7 @@ export default {
         })
       })
   },
-  discardCakeCreation: (cakeId) => (dispatch) => {
+  discardCake: (cakeId) => (dispatch) => {
     dispatch({
       type: 'DISCARD_CAKE_CREATION',
       payload: {id: cakeId}
