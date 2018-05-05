@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import YumFactorPreview from './YumFactorPreview'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -11,10 +11,13 @@ import faUndo from '@fortawesome/fontawesome-free-solid/faUndoAlt'
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
+import isOnline from '../../utils/isOnline'
 
 class CakePage extends Component {
   componentWillMount () {
-    this.props.retrieveCake()
+    if (isOnline()) {
+      this.props.retrieveCake()
+    }
   }
 
   render() {
@@ -52,18 +55,24 @@ class CakePage extends Component {
             <h1 className="card-header-title">
               {this.props.cake.name}
             </h1>
+            {
+              isOnline()
+              ? (
+                <Fragment>
+                  <a onClick={this.props.deleteCake} className="card-header-icon">
+                    <span className="icon has-text-info">
+                      <FA icon={faTrash} size="lg"/>
+                    </span>
+                  </a>
 
-            <a onClick={this.props.deleteCake} className="card-header-icon">
-              <span className="icon has-text-info">
-                <FA icon={faTrash} size="lg"/>
-              </span>
-            </a>
-
-            <Link to={`/cake/${this.props.cake.id}/edit`} className="card-header-icon">
-              <span className="icon has-text-info">
-                <FA icon={faPencil} size="lg"/>
-              </span>
-            </Link>
+                  <Link to={`/cake/${this.props.cake.id}/edit`} className="card-header-icon">
+                    <span className="icon has-text-info">
+                      <FA icon={faPencil} size="lg"/>
+                    </span>
+                  </Link>
+                </Fragment>
+              ) : null
+            }
 
             <Link to="/" className="card-header-icon">
               <span className="icon has-text-info">
