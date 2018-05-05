@@ -32,6 +32,26 @@ export default function cakesReducer (state = defaultState, action) {
           errors: action.error
         }
       }
+    case 'START_DELETE_CAKE':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...state[action.payload.id],
+          loading: true
+        }
+      }
+    case 'SUCCESS_DELETE_CAKE':
+      return {
+        ..._.omit(state, action.payload.id)
+      }
+    case 'ERROR_DELETE_CAKE':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...state[action.payload.id],
+          deleteError: action.error
+        }
+      }
     case 'DISCARD_CAKE_CREATION':
       return {
         ..._.omit(state, action.payload.id)
