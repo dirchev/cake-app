@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import CakePreview from './CakePreview'
 import Navigation from './Navigation'
 import PropTypes from 'prop-types'
-import actions from '../redux/action-creators'
+import actions from '../../redux/action-creators'
 import FA from '@fortawesome/react-fontawesome'
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
 

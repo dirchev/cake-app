@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import actions from '../redux/action-creators'
+import actions from '../../redux/action-creators'
 
 import FA from '@fortawesome/react-fontawesome'
 import faUndo from '@fortawesome/fontawesome-free-solid/faUndoAlt'
