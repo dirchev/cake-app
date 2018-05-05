@@ -53,6 +53,28 @@ export default {
         })
       })
   },
+  retrieveCake: (cakeId) => (dispatch) => {
+    dispatch({
+      type: 'START_RETRIEVE_CAKE',
+      payload: {id: cakeId}
+    })
+
+    api.getOne(cakeId)
+      .then(({data}) => {
+        dispatch({
+          type: 'SUCCESS_RETRIEVE_CAKE',
+          payload: data
+        })
+      })
+      .catch(({response}) => {
+        let err = response.data
+        dispatch({
+          type: 'ERROR_RETRIEVE_CAKE',
+          payload: {id: cakeId},
+          error: err
+        })
+      })
+  },
   deleteCake: (cakeId) => (dispatch) => {
     dispatch({
       type: 'START_DELETE_CAKE',
@@ -99,12 +121,12 @@ export default {
     api.getAll()
       .then(({data}) => {
         dispatch({
-          type: 'TOGGLE_GLOBAL_LOADING',
-          payload: {loading: true}
-        })
-        dispatch({
           type: 'SYNC_CAKES',
           payload: data
+        })
+        dispatch({
+          type: 'TOGGLE_GLOBAL_LOADING',
+          payload: {loading: false}
         })
       })
       .catch(({response}) => {
