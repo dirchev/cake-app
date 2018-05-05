@@ -4,9 +4,12 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import actions from '../redux/action-creators'
 
 import FA from '@fortawesome/react-fontawesome'
 import faUndo from '@fortawesome/fontawesome-free-solid/faUndoAlt'
+import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'
+import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
 
 class CakePage extends Component {
   render() {
@@ -19,11 +22,24 @@ class CakePage extends Component {
             <h1 className="card-header-title">
               {this.props.cake.name}
             </h1>
+
+            <a onClick={this.props.deleteCake} className="card-header-icon">
+              <span className="icon has-text-info">
+                <FA icon={faTrash} size="lg"/>
+              </span>
+            </a>
+
+            <Link to={`/cake/${this.props.cake.id}/edit`} className="card-header-icon">
+              <span className="icon has-text-info">
+                <FA icon={faPencil} size="lg"/>
+              </span>
+            </Link>
+
             <Link to="/" className="card-header-icon">
-            <span className="icon has-text-info">
-              <FA icon={faUndo} size="lg"/>
-            </span>
-          </Link>
+              <span className="icon has-text-info">
+                <FA icon={faUndo} size="lg"/>
+              </span>
+            </Link>
         </div>
         {
           this.props.cake.imageUrl
@@ -70,4 +86,14 @@ const mapStateToProps = function (state, prevProps) {
   }
 }
 
-export default connect(mapStateToProps)(CakePage)
+const mapDispatchToProps = function (dispatch, prevProps) {
+  let cakeId = prevProps.match.params.id
+  return {
+    deleteCake: (e) => {
+      e.preventDefault()
+      dispatch(actions.deleteCake(cakeId))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CakePage)
