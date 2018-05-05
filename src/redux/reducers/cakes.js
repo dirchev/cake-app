@@ -23,6 +23,18 @@ export default function cakesReducer (state = defaultState, action) {
           action: 'edit'
         }
       }
+    case 'START_RETRIEVE_CAKE':
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...action.payload,
+          ...state[action.payload.id],
+          loading: true,
+          synced: false,
+          action: 'retrieve'
+        }
+      }
+    case 'SUCCESS_RETRIEVE_CAKE':
     case 'SUCCESS_EDIT_CAKE':
       return {
         ...state,
@@ -48,6 +60,7 @@ export default function cakesReducer (state = defaultState, action) {
     case 'ERROR_EDIT_CAKE':
     case 'ERROR_CREATE_CAKE':
     case 'ERROR_DELETE_CAKE':
+    case 'ERROR_RETRIEVE_CAKE':
       return {
         ...state,
         [action.payload.id]: {
@@ -67,6 +80,7 @@ export default function cakesReducer (state = defaultState, action) {
           action: 'delete'
         }
       }
+    case 'CAKE_NOT_FOUND':
     case 'SUCCESS_DELETE_CAKE':
       return {
         ..._.omit(state, action.payload.id)

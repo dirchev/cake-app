@@ -1,16 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
-import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
+import { routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import thunk from 'redux-thunk'
 
 import reducers from './redux/reducers'
-import HomePage from './components/HomePage'
-import CakeCreatePage from './components/CakeCreatePage'
-import CakeEditPage from './components/CakeEditPage'
-import CakePage from './components/CakePage'
+import Routes from './components/Routes'
 import dataLoader from './utils/data-loader'
 
 const history = createHistory()
@@ -26,20 +22,10 @@ const store = createStore(
 
 dataLoader(store)
 
+
 let App = () => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <div className="container">
-        <Fragment>
-          <Route exact path="/" component={HomePage} />
-          <Switch>
-            <Route exact path="/cake/create" component={CakeCreatePage} />
-            <Route exact path="/cake/:id" component={CakePage} />
-            <Route exact path="/cake/:id/edit" component={CakeEditPage} />
-          </Switch>
-        </Fragment>
-      </div>
-    </ConnectedRouter>
+    <Routes history={history} />
   </Provider>
 )
 

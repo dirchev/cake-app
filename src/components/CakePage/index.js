@@ -13,6 +13,10 @@ import faTrash from '@fortawesome/fontawesome-free-solid/faTrash'
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
 
 class CakePage extends Component {
+  componentWillMount () {
+    this.props.retrieveCake()
+  }
+
   render() {
     if (!this.props.cake) return (
       <Redirect to='/' />
@@ -38,7 +42,7 @@ class CakePage extends Component {
       infoBox = (
         <div className="notification">
           <span className="icon"><FA icon={faSpinner} spin /></span>
-          <span>Getting <strong>{this.props.cake.name}</strong> baked!</span>
+          <span>Getting <strong>{this.props.cake.name}</strong> synced!</span>
         </div>
       )
     }
@@ -127,6 +131,9 @@ const mapDispatchToProps = function (dispatch, prevProps) {
     deleteCake: (e) => {
       e.preventDefault()
       dispatch(actions.deleteCake(cakeId))
+    },
+    retrieveCake: () => {
+      dispatch(actions.retrieveCake(cakeId))
     }
   }
 }
