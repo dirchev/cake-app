@@ -12,11 +12,11 @@ class CakePage extends Component {
     return (
       <div className="card">
         {
-          this.props.cake.imgURL
+          this.props.cake.imageUrl
           ? (
             <div className="card-image">
               <figure className="image is-4by3">
-                <img src={this.props.cake.imgURL} alt="Cake" />
+                <img src={this.props.cake.imageUrl} alt="Cake" />
               </figure>
             </div>
           ) : null
@@ -41,7 +41,7 @@ class CakePage extends Component {
 CakePage.propTypes = {
   cake: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    imgURL: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
     yumFactor: PropTypes.number.isRequired
   })
