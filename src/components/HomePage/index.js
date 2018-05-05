@@ -35,7 +35,7 @@ class HomePage extends Component {
                   return (
                     <div key={cake.id} className="notification">
                       <span className="icon"><FA icon={faSpinner} spin /></span>
-                      <span>Getting <strong>{cake.name}</strong> baked!</span>
+                      <span>Getting <strong>{cake.name}</strong> synced!</span>
                     </div>
                   )
                 }
@@ -75,7 +75,7 @@ HomePage.propTypes = {
 const mapStateToProps = (state) => {
   const cakesArr = Object.keys(state.cakes).map((cakeId) => state.cakes[cakeId])
   return {
-    unsyncedCakes: cakesArr.filter((c) => !c.synced),
+    unsyncedCakes: cakesArr.filter((c) => !c.synced && !c.action === 'retrieve'),
     cakes: cakesArr.filter((c) => c.synced)
   }
 }
