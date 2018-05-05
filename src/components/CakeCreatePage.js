@@ -18,7 +18,7 @@ class CakeCreatePage extends Component {
     this.state = {
       name: '',
       comment: '',
-      imgURL: '',
+      imageUrl: '',
       yumFactor: 0
     }
 
@@ -69,8 +69,8 @@ class CakeCreatePage extends Component {
             <Input
               label="Cake Image"
               placeholder="Please enter image url here..."
-              value={this.state.imgURL}
-              onChange={this.handleChange('imgURL')}
+              value={this.state.imageUrl}
+              onChange={this.handleChange('imageUrl')}
             />
             <YumFactorInput
               label="Yum Factor"

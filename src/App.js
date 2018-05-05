@@ -10,6 +10,7 @@ import reducers from './redux/reducers'
 import HomePage from './components/HomePage'
 import CakeCreatePage from './components/CakeCreatePage'
 import CakePage from './components/CakePage'
+import dataLoader from './utils/data-loader'
 
 const history = createHistory()
 
@@ -21,6 +22,8 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk, routerMiddleware(history))
 )
+
+dataLoader(store)
 
 let App = () => (
   <Provider store={store}>

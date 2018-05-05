@@ -3,6 +3,10 @@ import YumFactorPreview from './YumFactorPreview'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+
+import FA from '@fortawesome/react-fontawesome'
+import faUndo from '@fortawesome/fontawesome-free-solid/faUndoAlt'
 
 class CakePage extends Component {
   render() {
@@ -11,26 +15,38 @@ class CakePage extends Component {
     )
     return (
       <div className="card">
+        <div className="card-header">
+            <h1 className="card-header-title">
+              {this.props.cake.name}
+            </h1>
+            <Link to="/" className="card-header-icon">
+            <span className="icon has-text-info">
+              <FA icon={faUndo} size="lg"/>
+            </span>
+          </Link>
+        </div>
         {
-          this.props.cake.imgURL
+          this.props.cake.imageUrl
           ? (
-            <div className="card-image">
+            <div className="card-image is-hidden-tablet">
               <figure className="image is-4by3">
-                <img src={this.props.cake.imgURL} alt="Cake" />
+                <img src={this.props.cake.imageUrl} alt="Cake" />
               </figure>
             </div>
           ) : null
         }
         <div className="card-content">
-          {
-            this.props.cake.name
-            ? (<p className="title is-5">{this.props.cake.name}</p>)
-            : null
-          }
+          <div className="columns">
+            <div className="column is-8 is-hidden-mobile">
+              <figure className="box image is-4by3">
+                <img src={this.props.cake.imageUrl} alt="Cake" />
+              </figure>
+            </div>
 
-          <div className="content">
-           { this.props.cake.comment ? (<p>{this.props.cake.comment}</p>) : null }
-           { this.props.cake.yumFactor ? (<YumFactorPreview value={this.props.cake.yumFactor} />) : null}
+            <div className="column">
+            { this.props.cake.comment ? (<p>{this.props.cake.comment}</p>) : null }
+            { this.props.cake.yumFactor ? (<YumFactorPreview value={this.props.cake.yumFactor} />) : null}
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +57,7 @@ class CakePage extends Component {
 CakePage.propTypes = {
   cake: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    imgURL: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
     yumFactor: PropTypes.number.isRequired
   })
