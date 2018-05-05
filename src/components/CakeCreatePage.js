@@ -13,13 +13,6 @@ class CakeCreatePage extends Component {
   constructor () {
     super()
 
-    this.state = {
-      name: '',
-      comment: '',
-      imageUrl: '',
-      yumFactor: 0
-    }
-
     this.handleCancel = this.handleCancel.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -74,4 +67,5 @@ let mapDispatchToProps = function (dispatch) {
     }
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CakeCreatePage)
