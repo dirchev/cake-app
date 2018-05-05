@@ -14,7 +14,6 @@ export default {
       payload: {...data, id: creationId}
     })
     dispatch(push('/'))
-
     api.create(data)
       .then(({data}) => {
         dispatch({
