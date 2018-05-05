@@ -1,10 +1,10 @@
 import React from 'react'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import thunk from 'redux-thunk'
-
+import persistState from 'redux-localstorage'
 import reducers from './redux/reducers'
 import Routes from './components/Routes'
 import dataLoader from './utils/data-loader'
@@ -17,11 +17,13 @@ const store = createStore(
     routing: routerReducer
   }),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(thunk, routerMiddleware(history))
+  compose(
+    applyMiddleware(thunk,routerMiddleware(history)),
+    persistState(['cakes'])
+  )
 )
 
 dataLoader(store)
-
 
 let App = () => (
   <Provider store={store}>
