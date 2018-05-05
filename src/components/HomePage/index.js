@@ -17,14 +17,14 @@ class HomePage extends Component {
           <div>
             {
               this.props.unsyncedCakes.map((cake) => {
-                if (cake.errors) {
+                if (cake.error) {
                   return (
-                    <div key={cake.id} to={`/cake/${cake.id}/edit`} className="notification is-danger">
-                      <button className="delete" onClick={this.props.discardCakeCreation(cake.id)}></button>
+                    <div key={cake.id} className="notification is-danger">
+                      <button className="delete" onClick={this.props.discardCake(cake.id)}></button>
                       <span><strong>{cake.name}</strong> had some problems syncing. Fix it <Link to={`/cake/${cake.id}/edit`}>here</Link>.</span>
                     </div>
                   )
-                } else {
+                } else  {
                   return (
                     <div key={cake.id} className="notification">
                       <span className="icon"><FA icon={faSpinner} spin /></span>
@@ -75,9 +75,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    discardCakeCreation: (cakeId) => (e) => {
+    discardCake: (cakeId) => (e) => {
       e.preventDefault()
-      dispatch(actions.discardCakeCreation(cakeId))
+      dispatch(actions.discardCake(cakeId))
     }
   }
 }
